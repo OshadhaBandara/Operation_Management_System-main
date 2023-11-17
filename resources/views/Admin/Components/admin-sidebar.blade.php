@@ -38,17 +38,17 @@
                   <div class="menu_section">
                     <h3>Staff Management</h3>
                     <ul class="nav side-menu">
-                          <li>
-                            <a href="admin-dashboard"><i class="fa fa-home"></i> Dashboard </a>
+                    <li>
+                            <a href="{{url('admin-dashboard')}}"><i class="fa fa-home"></i> Dashboard </a>
                           </li>
                           <li>
-                            <a href="user-manager"><i class="fa fa-home"></i> User Manager </a>
+                            <a href="{{url('user-manager')}}"><i class="fa fa-home"></i> User Manager </a>
                           </li>
                           <li>
-                            <a href="citizen-manager"><i class="fa fa-home"></i> Citizen Manager </a>
+                            <a href="{{url('citizen-manager')}}"><i class="fa fa-home"></i> Citizen Manager </a>
                           </li>
                           <li>
-                            <a href="citizen-appointment"><i class="fa fa-home"></i> Appointmet Manager </a>
+                            <a href="{{url('citizen-appointment')}}"><i class="fa fa-home"></i> Appointmet Manager </a>
                           </li>
                           <li>
                             <a href="citizen-appointments"><i class="fa fa-home"></i> Reports </a>

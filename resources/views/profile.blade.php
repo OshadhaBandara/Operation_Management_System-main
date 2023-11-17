@@ -36,7 +36,7 @@
               
                           {{-- @dd(asset('storage/'.session('cnic').'/'.$documents->profile_image)) --}}
 
-                          <img class="img-responsive avatar-view" src="{{ !$documents->profile_image == null ? asset('storage/'.session('cnic').'/'.$documents->profile_image) : asset('storage/citizen/profile_image.png') }}"
+                          <img class="img-responsive avatar-view" src="{{ !empty($documents->profile_image) ? asset('storage/'.session('cnic').'/'.$documents->profile_image) : asset('storage/citizen/profile_image.png') }}"
                           alt="Profile Image">
                           
                         </div>

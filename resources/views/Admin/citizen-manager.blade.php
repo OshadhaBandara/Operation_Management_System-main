@@ -45,7 +45,7 @@
 
               <div class="right_col" role="main">
 
-
+              @include('component.error-message') 
 
 
                 <div class="col-md-12 col-sm-12 "  style="padding-top: 30px">
@@ -53,7 +53,7 @@
                     <div class="x_title">
                       <div class="row">
                         <div class="col-md-6 col-sm-6">
-                          <h2>Citizen </h2>
+                          <h2>Manage Citizens  </h2>
                         </div>
                         <div class="col-md-6 col-sm-6 text-right">
                           <div class="input-group">
@@ -72,9 +72,8 @@
                               <div class="card-box table-responsive">
                                 <div class="row" style="padding: 15px">
                                   <div  class="col-md-6 col-sm-6 col-xs-6">
-                                    <p class="text-muted font-13 m-b-30" style="padding-top: 15px">
-                                      Manage Citizen 
-                                    </p>
+                                    
+                                    <a href="{{url('add-citizen-id')}}" class="btn btn-primary">Add New Citizen</a>
                                   </div>
 
 
@@ -86,45 +85,42 @@
                                     <thead>
                                       <tr>
                                         <th>Name</th>
-                                        <th>Job Roll</th>
-                                        <th>Districts</th>
-                                        <th>Divisions</th>
-                                        <th>Action</th>
+                                        <th>NIC</th>
+                                        <th>email</th>
+                                        <th>Contact</th>
+                                        <th>Gender</th>
+                                        <th>Address</th>
+                                        <th></th>
                                       </tr>
                                     </thead>
               
-              
-
-                                  
-
-
-
-                                  
                                     <tbody>
 
 
-                                      @for ($i=0; $i<15; $i++)
+                                      @foreach($citizen as $c)
 
                                         <tr>
-                                          <td>Tiger Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>Edinburgh</td>
+                                          <td>{{$c->fname}} {{$c->lname}}</td>
+                                          <td>{{$c->nic}}</td>
+                                          <td>{{$c->email}}</td>
+                                          <td>{{$c->phone}}</td>
+                                          <td>{{$c->gender}}</td>
+                                          <td>{{$c->address}}</td>
                                           <td>          
                                             
                                             <!-- Split button -->
                                             <div class="btn-group">
-                                              <button type="button" class="btn btn-danger">Action</button>
+                                              <button type="button" class="btn btn-danger">Actions</button>
                                               <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="sr-only">Toggle Dropdown</span>
                                               </button>
                                               <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">View</a>
-                                                <a class="dropdown-item" href="#">Edit</a>
-                                                <a class="dropdown-item" href="#">View Appointments</a>
-                                                <a class="dropdown-item" href="#">Documents</a>
+                                              <a class="dropdown-item" href="{{route('view-citizen',$c->id)}}">View</a>
+                                                <a class="dropdown-item" href="{{route('edit-citizen',$c->id)}}">Edit</a>
+                                                <a class="dropdown-item" href="{{route('view-citizen-appoinments',$c->id)}}">View Appointments</a>
+                                                <a class="dropdown-item" href="{{route('citizen-file-manage',$c->id)}}">Documents</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#" style="background-color:#2a3f54; color: rgb(255, 0, 0) ">Delete</a> 
+                                                <a class="dropdown-item delete-modal"  attr-id="{{$c->id}}" attr-url="{{route('delete-citizen',$c->id)}}" data-toggle="modal" data-target="#deleteModal">Delete</a>
                                               </div>
                                             </div>
                           
@@ -132,7 +128,7 @@
                                           </td>
                                         </tr>
                                       
-                                      @endfor
+                                      @endforeach
                                       <a  class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter">Availability for Service</a>       <!-- link trigger modal -->                           
 
                                     </tbody>
@@ -195,6 +191,28 @@
                 </div>
               </div>
 
+<!-- delete Modal: start -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Citizen</h5>
+                
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-exclamation-circle me-2"></i> Do you want to Delete <span class="text-dark fe-600">Citizen .No <span id="c-id"></span> </span> ?
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary mb-0" data-dismiss="modal">Close</button>
+                <form action="" class="delete-form" method="post">
+                  @csrf
+                    <button class="btn btn-primary" type="submit">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end delete Model -->
 
 
               @include('Admin.Components.admin-footer')
@@ -243,6 +261,15 @@
               console.log('End Date:', endDate);
           });
   
+
+  // cancelation
+  $('.delete-modal').click(function(){
+            var uid = $(this).attr('attr-id');
+            var url = $(this).attr('attr-url');
+           $('.delete-form').attr('action',url)
+           $('#c-id').html(uid);
+          
+        });
   
           </script>
 

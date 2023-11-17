@@ -6,35 +6,36 @@
 
       <h1>Sign Up</h1>
       <div>
-        <input type="text" class="form-control" placeholder="First Name" name="fname" required="" />
+        <input type="text" class="form-control" placeholder="First Name" name="fname" value="{{old('fname')}}" required="" />
       </div>
       <div>
-        <input type="text" class="form-control" placeholder="Last Name" name="lname" required="" />
+        <input type="text" class="form-control" placeholder="Last Name" name="lname" value="{{old('lname')}}" required="" />
       </div>
       <div>
-        <input type="text" class="form-control" placeholder="NIC Number" name="nic" required="" />
+        <input type="text" class="form-control" placeholder="NIC Number" name="nic" value="{{old('nic')}}" required="" />
       </div>
       <div>
-        <input type="email" class="form-control" placeholder="Email" name="email"  required="" />
+        <input type="email" class="form-control" placeholder="Email" name="email" value="{{old('email')}}" required="" />
       </div>
       <div>
-        <input type="tel" class="form-control" placeholder="Phone Number" name="phone" required=""/>
+        <input type="tel" class="form-control" placeholder="Phone Number" name="phone" value="{{old('phone')}}" required=""/>
       </div>
       <br/>
        <div >
             <select class="form-control" name="district">
                 <option disabled>Choose District</option>
-                <option >District1</option>
-                <option >District2</option>
-                
+                @foreach(config('districts') as $ds)
+                                        <option value="{{$ds}}">{{$ds}}</option>
+                                        @endforeach
             </select>
         </div>
         <br/>
         <div >
           <select class="form-control" name="division">
               <option disabled>Choose Divition</option>
-              <option >District1</option>
-              <option >District2</option>
+              @foreach(config('gn_divisions') as $gn)
+                                        <option value="{{$gn['name']}}">{{$gn['name']}}</option>
+                                        @endforeach
               
           </select>
       </div>

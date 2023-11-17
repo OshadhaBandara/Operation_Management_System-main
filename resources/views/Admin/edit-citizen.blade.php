@@ -51,15 +51,16 @@
               <div class="right_col" role="main">
 
 
-
+              @include('component.error-message') 
 
                 <div class="col-md-12 col-sm-12 "  style="padding-top: 30px">
                   <div class="x_panel" >
-                    <form class="form-label-left input_mask">
+                    <form class="form-label-left input_mask" action="{{route('update-citizen',$citizen->id)}}" method="post">
+                    @csrf
                     <div class="x_title">
                       <div class="row">
                         <div class="col-md-6 col-sm-6">
-                          <h2>Edit Citizen</h2>
+                          <h2>Edit Citizen #{{$citizen->id}}</h2>
                         </div>
 
                       </div>
@@ -72,61 +73,39 @@
                               <div class="card-box table-responsive">
 
                                 <div class="col-md-12 col-sm-12" style="padding-top: 30px">
-                                  <div class="x_panel">
-
-                                    <div class="x_content">
-                                      <div class="row" style="padding: 15px">
-                                          <div class="col-md-6 col-sm-6 mb-2">
-                                              <!-- Container for user image and icon -->
-                                              <div class="border border-dark" style="position: relative; max-width: 250px; cursor: pointer; " id="user-image" data-toggle="modal" data-target="#updateImageModal">
-                                                  <!-- User Image -->
-                                                  <img src="{{asset('assets/images/person_3-min.jpg')}}" alt="user-image" style="width: 100%; ">
-                                                  <!-- Plus-square icon inside the container -->
-                                                  <i class="fa fa-plus-square" style="position: absolute; bottom: 0; right: 0; font-size: 24px; color:#2a3f54; background-color: rgb(255, 255, 255)"></i>
-                                              </div>
-                                          </div>
-                                          <div class="col-md-6 col-sm-6 mb-2">
-                                          </div>
-                                      </div>
-                                  </div>
+                                                              
                                   
-                                  
-
-                                       
-                                          <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left" id="first-name" placeholder="ID" disabled>
-                                            <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
-                                          </div>
+                                          
                                           
                     
                                         <div class="x_content">
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="text" class="form-control has-feedback-left" id="first-name" placeholder="First Name">
+                                            <input type="text" value="{{$citizen->fname}}" name="fname" class="form-control has-feedback-left" id="first-name" placeholder="First Name">
                                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                           </div>
                       
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="email" class="form-control has-feedback-left" id="last-name" placeholder="Last Name">
+                                            <input type="text" value="{{$citizen->lname}}" name="lname" class="form-control has-feedback-left" id="last-name" placeholder="Last Name">
                                             <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
                                           </div>
                       
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="email" class="form-control has-feedback-left" id="inputSuccess4" placeholder="NIC">
+                                            <input type="text" value="{{$citizen->nic}}" class="form-control has-feedback-left" id="first-name" placeholder="ID" disabled>
                                             <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
                                           </div>
 
                                                                                     
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="date" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Date of Birth">
+                                            <input type="date" value="{{date('Y-m-d',strtotime($citizen->dob))}}" name="dob" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Date of Birth">
                                             <span class="fa fa-birthday-cake form-control-feedback left" aria-hidden="true"></span>
                                           </div>
 
                                                                                     
                                           <div class="col-md-6 col-sm-6 form-group has-feedback">
-                                            <select class="form-control has-feedback-left" id="inputSuccess4" placeholder="Date of Birth">
+                                            <select class="form-control has-feedback-left" name="gender" id="inputSuccess4" placeholder="Date of Birth">
                                                 <option value="">Select Gender</option>
-                                                <option value="01/01/1990">Male</option>
-                                                <option value="02/15/1985">Female</option>
+                                                <option value="Male" {{$citizen->gender=="Male"?'selected="true"':''}}>Male</option>
+                                                <option value="Female" {{$citizen->gender=="Female"?'selected="true"':''}}>Female</option>
                                                 <!-- Add more date options as needed -->
                                             </select>
                                             <span class="fa fa-child form-control-feedback left" aria-hidden="true"></span>
@@ -134,29 +113,30 @@
                                         
                       
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="email" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Email">
+                                            <input type="email" value="{{$citizen->email}}" name="email" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Email">
                                             <span class="fa fa-envelope form-control-feedback left" aria-hidden="true"></span>
                                           </div>
                                           
 
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="email" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Phone">
+                                            <input type="text" value="{{$citizen->phone}}" name="phone" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Phone">
                                             <span class="fa fa-phone form-control-feedback left" aria-hidden="true"></span>
                                           </div>
 
 
                       
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                            <input type="email" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Address">
+                                            <input type="text" value="{{$citizen->address}}" name="address" class="form-control has-feedback-left" id="inputSuccess4" placeholder="Address">
                                             <span class="fa fa-home form-control-feedback left" aria-hidden="true"></span>
                                           </div>
 
 
                                           <div class="col-md-6 col-sm-6 form-group has-feedback">
-                                            <select class="form-control has-feedback-left" id="inputSuccess4" placeholder="District">
+                                            <select class="form-control has-feedback-left" name="district" id="inputSuccess4" placeholder="District">
                                                 <option value="">Select District</option>
-                                                <option value="01/01/1990">d1</option>
-                                                <option value="02/15/1985">D2</option>
+                                                @foreach(config('districts') as $ds)
+                                                <option value="{{$ds}}" {{$citizen->district==$ds?'selected="true"':''}}>{{$ds}}</option>
+                                                @endforeach
                                                 <!-- Add more date options as needed -->
                                             </select>
                                             <span class="fa fa-university form-control-feedback left" aria-hidden="true"></span>
@@ -164,10 +144,11 @@
 
 
                                           <div class="col-md-6 col-sm-6 form-group has-feedback">
-                                            <select class="form-control has-feedback-left" id="inputSuccess4" placeholder="Grama Niladari Divitions">
+                                            <select class="form-control has-feedback-left" name="division" id="inputSuccess4" placeholder="Grama Niladari Divitions">
                                                 <option value="">Select Divition</option>
-                                                <option value="01/01/1990">d1</option>
-                                                <option value="02/15/1985">D2</option>
+                                                @foreach(config('gn_divisions') as $gn)
+                                                <option value="{{$gn['name']}}" {{$citizen->division==$gn['name']?'selected="true"':''}}>{{$gn['name']}}</option>
+                                                @endforeach
                                                 <!-- Add more date options as needed -->
                                             </select>
                                             <span class="fa fa-sort form-control-feedback left" aria-hidden="true"></span>

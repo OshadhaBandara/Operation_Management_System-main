@@ -10,6 +10,8 @@
                                 <th>Delivary Method</th>
                                 <th>Amount</th>
                                 <th>Payment Status</th>
+                                <th>Status</th>
+                                <th>Notes</th>
                               </tr>
                             </thead>
 
@@ -101,9 +103,17 @@
                                               <td>{{$service->id}}</td>
                                               <td>{{ $serviceType}}</td>
                                               <td>{{ \Carbon\Carbon::parse($service->created_at)->format('F j, Y') }}</td>
-                                              <td>{{$service->service_type == 'appointment'? "N/A": $service->delivary_method}}</td>
-                                              <td>{{$service->service_type == 'appointment'? "N/A":  $service->total}}</td>
+                                              <td>{{$service->service_type == 'Appointment'? "N/A": $service->delivary_method}}</td>
+                                              <td>{{$service->service_type == 'Appointment'? "N/A":  $service->total}}</td>
                                               <td>{{$paymentStatus}}</td>
+                                              <td>{{$service->service_status==0?'Pending':($service->service_status==1?'Cancelled':($service->service_status==2?($service->service_type=='Appointment'?'Rescheduled':'Rejected'):($service->service_status==-1?'Cancelled':'Completed')))}}</td>
+                                              <td>
+                                              @if($service->service_type == 'Appointment')
+                                              Date: {{date('Y-m-d H:i A',strtotime($service->reschedule_date))}}
+                                              @endif
+                                              {{$service->reject_note}}
+                                              
+                                              </td>
                                             </tr>
                                         </tbody>
                                         

@@ -53,15 +53,15 @@
                     <div class="x_title">
                       <div class="row">
                         <div class="col-md-6 col-sm-6">
-                          <h2>Appointment </h2>
+                          <h2>Appointments of {{$name}} </h2>
                         </div>
                         <div class="col-md-6 col-sm-6 text-right">
-                          <div class="input-group">
+                          <!-- <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search for...">
                             <span class="input-group-btn">
                               <button class="btn btn-secondary" type="button">Go!</button>
                             </span>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
 
@@ -82,15 +82,17 @@
                                  
                               
 
-                                  <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%; padding-bottom: 30px">
+                                <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%; padding-bottom: 30px">
                                     <thead>
                                       <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>ID</th>
+                                        <th>Service</th>
+                                        <th>Details</th>
+                                        <th>Submitted Date</th>
+                                        <th>Total</th>
+                                        <th>Payments</th>
+                                        <th>Status</th>
+                                        <th></th>
                                       </tr>
                                     </thead>
               
@@ -104,28 +106,47 @@
                                     <tbody>
 
 
-                                      @for ($i=0; $i<15; $i++)
+                                      @foreach($appoinments as $ap)
 
                                         <tr>
-                                          <td>Tiger Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
+                                          <td>{{$ap->id}}</td>
+                                          <td>{{$ap->service_type}}</td>
+                                          <td>
+                                          @if($ap->service_type=='Certificate Services')
+                                            {{$ap->certificate_type}}
+                                          @elseif($ap->service_type=='Passports Service')
+                                            {{$ap->passport_type}}
+                                          @elseif($ap->service_type=='Appointment')
+                                            {{$ap->appointment_type}}
+                                          @elseif($ap->service_type=='NIC Services')
+                                            {{$ap->nic_service_type}}
+                                          @elseif($ap->service_type=='Vehicle Revenue Service')
+                                            {{$ap->v_emission_type}}
+                                          @endif
+                                          </td>
+                                          <td>{{date('Y-m-d',strtotime($ap->created_at))}}</td>
+                                          <td>{{$ap->total}}</td>
+                                          <td>{{$ap->service_payment==1?'Paid':'Unpaid'}}</td>
+                                          <td>{{$ap->service_status==0?'Pending':($ap->service_status==1?'Cancelled':($ap->service_status==2?($ap->service_type=='Appointment'?'Rescheduled':'Rejected'):'Completed'))}}</td>
                                           <td>          
                                             
                                             <!-- Split button -->
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                                <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle" data-toggle="dropdown"
                                                   aria-haspopup="true" aria-expanded="false">
-                                                  Primary
+                                                  Actions
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                  <a class="dropdown-item" href="#">View</a>
-                                                  <a class="dropdown-item" href="#">Complete</a>
-                                                  <a  class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter">Re Schedule</a>
+                                                  <a class="dropdown-item" href="{{route('appoinments.view',$ap->id)}}">View</a>
+                                                  <a class="dropdown-item complete-modal {{$ap->service_status>1?'disabled':''}}"  attr-id="{{$ap->id}}" attr-url="{{route('appoinments.complete',$ap->id)}}" data-toggle="modal" data-target="#completeModal">Complete</a>
+                                                  
+                                                  @if($ap->service_type=='Appointment')
+                                                  <a class="dropdown-item reschedule-modal {{$ap->service_status>1?'disabled':''}}"  attr-id="{{$ap->id}}" attr-url="{{route('appoinments.reschedule',$ap->id)}}" data-toggle="modal" data-target="#rescheduleModal">Reschedule</a>
+                                                  @else
+                                                  <a class="dropdown-item reject-modal {{$ap->service_status>1?'disabled':''}}"  attr-id="{{$ap->id}}" attr-url="{{route('appoinments.reject',$ap->id)}}" data-toggle="modal" data-target="#rejectModal">Reject</a>
+                                                  @endif
                                                   <div class="dropdown-divider"></div>
-                                                  <a  class="dropdown-item" data-toggle="modal" data-target="#Cencel">Cancelation</a>
+                                                  <a class="dropdown-item cancel-modal"  attr-id="{{$ap->id}}" attr-url="{{route('appoinments.cancelation',$ap->id)}}" data-toggle="modal" data-target="#cancelModal">Cancelation</a>
                                                 </div>
                                               </div>
 
@@ -133,7 +154,7 @@
                                           </td>
                                         </tr>
                                       
-                                      @endfor
+                                      @endforeach
                                     </tbody>
                                   </table>
                     </div>
@@ -156,6 +177,113 @@
 
 
     
+<!-- Complete Modal: start -->
+<div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="exampleModalLabel">Complete Service</h5>
+                
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-exclamation-circle me-2"></i> Do you want to Complete <span class="text-dark fe-600">Service .No <span id="service-id"></span> </span> ?
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary mb-0" data-dismiss="modal">Close</button>
+                <form action="" class="complete-form" method="post">
+                  @csrf
+                    <button class="btn btn-primary" type="submit">Yes, Complete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end complete Model -->
+
+
+
+<!-- Reject Modal: start -->
+<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form action="" class="reject-form" method="post">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="exampleModalLabel">Reject Service</h5>
+                
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-exclamation-circle me-2"></i> Do you want to Reject <span class="text-dark fe-600">Service .No <span id="service-id-rjct"></span> </span> ?
+                <p>Please add reject note to complete the process..</p>
+                <textarea class="form-control" required name="note" cols="1" rows="3" placeholder="Reject Note"></textarea>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary mb-0" data-dismiss="modal">Close</button>
+                
+                  @csrf
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end reject Model -->
+
+
+<!-- reschedule Modal: start -->
+<div class="modal fade" id="rescheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form action="" class="reschedule-form" method="post">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="exampleModalLabel">Reschedule Appointment</h5>
+                
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-exclamation-circle me-2"></i> Are you sure to Reschedule <span class="text-dark fe-600">Appointment .No <span id="service-id-rsch"></span> </span> ?
+                <p>Please add new date to reschedule the appointment..</p>
+                <input type="datetime-local" name="date" class="form-control" required>                
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary mb-0" data-dismiss="modal">Close</button>
+                
+                  @csrf
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end reschedule Model -->
+
+
+<!-- cancelation Modal: start -->
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <form action="" class="cancelation-form" method="post">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="exampleModalLabel">Service Cancelation</h5>
+                
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-exclamation-circle me-2"></i> Do you want to Cancel <span class="text-dark fe-600">Service .No <span id="service-id-cncl"></span> </span> ?
+                <p>Please add cancelation note to complete the process..</p>
+                <textarea class="form-control" required name="note" cols="1" rows="3" placeholder="Cancelation Note"></textarea>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-secondary mb-0" data-dismiss="modal">Close</button>
+                
+                  @csrf
+                    <button class="btn btn-primary" type="submit">Confirm</button>
+                
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end cancelation Model -->
 
               <!-- Modal -->
               <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -265,9 +393,57 @@
              
             }
           }
+
+          
         </style>
 
-       
+       <script>
+        $(document).ready(function(){
+      // complete
+         $('.complete-modal').click(function(){
+            var uid = $(this).attr('attr-id');
+            var url = $(this).attr('attr-url');
+           $('.complete-form').attr('action',url)
+           $('#service-id').html(uid);
+          
+        });
+
+        // reject
+        $('.reject-modal').click(function(){
+            var uid = $(this).attr('attr-id');
+            var url = $(this).attr('attr-url');
+           $('.reject-form').attr('action',url)
+           $('#service-id-rjct').html(uid);
+          
+        });
+
+        // reschedule
+        $('.reschedule-modal').click(function(){
+            var uid = $(this).attr('attr-id');
+            var url = $(this).attr('attr-url');
+           $('.reschedule-form').attr('action',url)
+           $('#service-id-rsch').html(uid);
+          
+        });
+
+        // cancelation
+        $('.cancel-modal').click(function(){
+            var uid = $(this).attr('attr-id');
+            var url = $(this).attr('attr-url');
+           $('.cancelation-form').attr('action',url)
+           $('#service-id-cncl').html(uid);
+          
+        });
+
+        $('.search-btn').on('click',function(event){
+          $('.search-btn').attr('href', function(index, attr) {
+            var data = $('#search-data').val();
+            return attr + '?data=' + data;
+          });
+        });
+         
+    });
+       </script>
 
     </body>
 </html> 
