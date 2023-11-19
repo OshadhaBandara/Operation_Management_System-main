@@ -1573,13 +1573,13 @@ function init_daterangepicker() {
     var cb = function (start, end, label) {
         console.log(start.toISOString(), end.toISOString(), label);
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        $('#reportrange input').val(start.format('DD-MM-YYYY') + ',' + end.format('DD-MM-YYYY'));
     };
 
     var optionSet1 = {
         startDate: moment().subtract(29, 'days'),
         endDate: moment(),
         minDate: '01/01/2012',
-        maxDate: '12/31/2015',
         dateLimit: {
             days: 60
         },
@@ -1615,6 +1615,7 @@ function init_daterangepicker() {
     };
 
     $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+    $('#reportrange input').val(moment().subtract(29, 'days').format('DD-MM-YYYY') + ',' + moment().format('DD-MM-YYYY'));
     $('#reportrange').daterangepicker(optionSet1, cb);
     $('#reportrange').on('show.daterangepicker', function () {
         console.log("show event fired");

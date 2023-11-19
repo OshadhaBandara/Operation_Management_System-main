@@ -14,7 +14,7 @@ class AddColoumsToDocumentsTable extends Migration
     public function up()
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->string('attachments')->nullable();
+            $table->text('attachments')->nullable();
         });
     }
 

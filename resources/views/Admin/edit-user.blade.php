@@ -52,7 +52,7 @@
               <div class="right_col" role="main">
 
 
-
+              @include('component.error-message') 
 
               {{--   @dd($user->id) --}}
                 <div class="col-md-12 col-sm-12 "  style="padding-top: 30px">
@@ -64,9 +64,6 @@
                       <div class="row">
                         <div class="col-md-6 col-sm-6">
                           <h2>Edit User</h2>
-                        </div>
-                        <div class="col-md-6 col-sm-6">
-                          @include('component.error-message') 
                         </div>
 
                       </div>
@@ -89,7 +86,7 @@
                                                     <!-- User Image -->
                                                     <label for="imageUpload" style="width: 100%;">
                                                         <div id="user-image-container">
-                                                            <img id="user-image" src="{{asset('assets/images/person_3-min.jpg')}}" alt="user-image" style="width: 100%;">
+                                                            <img id="user-image" src="{{$user->profile_file_name=='img.jpg'?asset('assets/images/person_3-min.jpg'):asset('storage/Admin-profiles/' . $user->nic.'/'. $user->profile_file_name)}}" alt="user-image" style="width: 100%;">
                                                         </div>
                                                         <!-- Plus-square icon inside the container -->
                                                         <i class="fa fa-plus-square" style="position: absolute; bottom: 0; right: 0; font-size: 24px; color:#2a3f54; background-color: rgb(255, 255, 255)"></i>
@@ -125,18 +122,27 @@
                                     </script>
                                     
 
-                                                              
                                           <div class="x_content">
-                                            <div class="col-md-6 col-sm-6  form-group has-feedback">
+                                          <div class="col-md-6 col-sm-6  form-group has-feedback">
+                                              <input type="text" class="form-control has-feedback-left" name="nic" id="inputSuccess4" value="{{$user->nic}}" placeholder="NIC">
+                                              <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
+                                              <div class="text-danger" style="text-align: left">
+                                                <span style="color: red;">@error('nic') {{ $message }} @enderror</span>
+                                              </div>
+                                            </div>
+                                          </div>           
+                                        
+                                            
+                                          
+                    
+                                          <div class="x_content">
+                                          <div class="col-md-6 col-sm-6  form-group has-feedback">
                                               <input type="text" class="form-control has-feedback-left" id="id" name="id" value="{{$user->id}}" readonly>
                                               <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
                                               <div class="text-danger" style="text-align: left">
                                                 <span style="color: red;">@error('first_name') {{ $message }} @enderror</span>
                                               </div>
                                             </div>
-                                          
-                    
-                                          <div class="x_content">
                                             <div class="col-md-6 col-sm-6  form-group has-feedback">
                                               <input type="text" class="form-control has-feedback-left" id="first-name" name="first_name" value="{{$user->fname}}" placeholder="First Name">
                                               <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
@@ -153,13 +159,6 @@
                                               </div>
                                             </div>
                         
-                                            <div class="col-md-6 col-sm-6  form-group has-feedback">
-                                              <input type="text" class="form-control has-feedback-left" name="nic" id="inputSuccess4" value="{{$user->nic}}" placeholder="NIC">
-                                              <span class="fa fa-credit-card form-control-feedback left" aria-hidden="true"></span>
-                                              <div class="text-danger" style="text-align: left">
-                                                <span style="color: red;">@error('nic') {{ $message }} @enderror</span>
-                                              </div>
-                                            </div>
                         
                                             <div class="col-md-6 col-sm-6  form-group has-feedback">
                                               <input type="email" class="form-control has-feedback-left" name="email" id="inputSuccess4"  value="{{$user->email}}" placeholder="Email">
@@ -202,9 +201,9 @@
                                             <div class="col-md-6 col-sm-6 form-group has-feedback">
                                               <select class="form-control has-feedback-left" name="district">
                                                   <option disabled selected>Choose Duty District</option>
-                                                  <option @if($user->district == 'D1') selected @endif>D1</option>
-                                                  <option @if($user->district == 'D2') selected @endif>D2</option>
-                                                  <option @if($user->district == 'D3') selected @endif>D3</option>
+                                                  @foreach(config('districts') as $ds)
+                                                  <option value="{{$ds}}" {{$ds==$user->district?'selected':''}}>{{$ds}}</option>
+                                                  @endforeach
                                               </select>
                                               <span class="fa fa-university form-control-feedback left" aria-hidden="true"></span>
                                               <div class="text-danger" style="text-align: left">
@@ -215,9 +214,9 @@
                                           <div class="col-md-6 col-sm-6 form-group has-feedback">
                                               <select class="form-control has-feedback-left" name="division">
                                                   <option disabled selected>Choose Duty Division</option>
-                                                  <option @if($user->division == 'D1') selected @endif>D1</option>
-                                                  <option @if($user->division == 'D2') selected @endif>D2</option>
-                                                  <option @if($user->division == 'D3') selected @endif>D3</option>
+                                                  @foreach(config('gn_divisions') as $gn)
+                                                  <option value="{{$gn['name']}}" {{$gn['name']==$user->division?'selected':''}}>{{$gn['name']}}</option>
+                                                  @endforeach
                                               </select>
                                               <span class="fa fa-sort form-control-feedback left" aria-hidden="true"></span>
                                               <div class="text-danger" style="text-align: left">

@@ -56,8 +56,8 @@
                   <li><a href="profile" style="display: inline; padding-bottom: 5px;">Profile</a></li>
                   <li><a href="logout_citizen" style="display: inline;padding-bottom: 5px;">Logout</a></li>
                 @else
-                  <li><a href="citizen-login#signin" style="display: inline;padding-bottom: 5px;">Sing In</a></li>
-                  <li><a href="citizen-login#signup" style="display: inline;padding-bottom: 5px;">Sing Up</a></li>
+                  <li><a href="citizen-login#signin" style="display: inline;padding-bottom: 5px;">Sign In</a></li>
+                  <li><a href="citizen-login#signup" style="display: inline;padding-bottom: 5px;">Sign Up</a></li>
                 @endif
      
               </ul>

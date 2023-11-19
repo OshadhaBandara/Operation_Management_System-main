@@ -174,11 +174,11 @@
                                             <!-- File Manager -->
 
 
-                                            <div id="main-content" class="file_manager border border-dark">
+                                            <div id="main-content" class="file_manager {{$citizen->documents->grama_niladari_certificate==null && $citizen->documents->birth_certificate==null && $citizen->documents->nic==null && $citizen->documents->vehicle_license==null && $citizen->documents->v_emission_certificate==null && $citizen->documents->appointment_attachment==null && $citizen->documents->attachments==null?'':'border border-secondary'}}">
                                                 <div class="container">
                                                     <div class="row clearfix" style="padding: 10px">
 
-
+                                                        <p class="{{$citizen->documents->grama_niladari_certificate==null && $citizen->documents->birth_certificate==null && $citizen->documents->nic==null && $citizen->documents->vehicle_license==null && $citizen->documents->v_emission_certificate==null && $citizen->documents->appointment_attachment==null && $citizen->documents->attachments==null?'':'d-none'}}">No attachements available!!</p>
 
                                                         @if($citizen->documents->grama_niladari_certificate!=null)
                                                         <div class="col-lg-3 col-md-4 col-sm-12 ">
@@ -195,7 +195,8 @@
                                                                         </div>
                                                                         <a href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->grama_niladari_certificate)}}" target="_blank">
                                                                             <div class="file-name">
-                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->grama_niladari_certificate}}</p>
+                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->grama_niladari_certificate}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
+                                                                                
                                                                                 <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
                                                                             </div>
                                                                         </a>
@@ -220,7 +221,7 @@
                                                                         </div>
                                                                         <a href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->birth_certificate)}}" target="_blank">
                                                                             <div class="file-name">
-                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->birth_certificate}}</p>
+                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->birth_certificate}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
                                                                                 <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
                                                                             </div>
                                                                         </a>
@@ -245,7 +246,7 @@
                                                                         </div>
                                                                         <a href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->nic)}}" target="_blank">
                                                                             <div class="file-name">
-                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->nic}}</p>
+                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->nic}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
                                                                                 <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
                                                                             </div>
                                                                         </a>
@@ -270,7 +271,7 @@
                                                                         </div>
                                                                         <a href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->vehicle_license)}}" target="_blank">
                                                                             <div class="file-name">
-                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->vehicle_license}}</p>
+                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->vehicle_license}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
                                                                                 <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
                                                                             </div>
                                                                         </a>
@@ -295,7 +296,7 @@
                                                                         </div>
                                                                         <a href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->v_emission_certificate)}}" target="_blank">
                                                                             <div class="file-name">
-                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->v_emission_certificate}}</p>
+                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->v_emission_certificate}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
                                                                                 <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
                                                                             </div>
                                                                         </a>
@@ -320,7 +321,7 @@
                                                                         </div>
                                                                         <a href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->appointment_attachment)}}" target="_blank">
                                                                             <div class="file-name">
-                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->appointment_attachment}}</p>
+                                                                                <p class="m-b-5 text-muted">{{$citizen->documents->appointment_attachment}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
                                                                                 <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
                                                                             </div>
                                                                         </a>
@@ -329,7 +330,34 @@
                                                             </div>
                                                         </div>
                                                         @endif
-
+                                                        <?php 
+                                                             $attachments = $citizen->documents->attachments==null?[]:explode(',', $citizen->documents->attachments);
+                                                            
+                                                        ?>
+                                                        @foreach($attachments as $at)
+                                                        <div class="col-lg-3 col-md-4 col-sm-12">
+                                                            <div class="card border btn-outline-light">
+                                                                <div class="file">
+                                                                    <a href="javascript:void(0);">
+                                                                        <div class="hover">
+                                                                            <button type="button" class="btn btn-icon btn-danger delete-modal" attr-name="{{$at}}" attr-url="{{route('delete-media',['attachments',$at,$citizen->id])}}"  data-toggle="modal" data-target="#deleteModal">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="icon">
+                                                                            <i class="fa fa-file text-info"></i>
+                                                                        </div>
+                                                                        <a href="{{asset('storage/'.$citizen->nic.'/'.$at)}}" target="_blank">
+                                                                            <div class="file-name">
+                                                                                <p class="m-b-5 text-muted">{{$at}} <span class="text-primary"><i class="fa fa-eye"></i></span></p>
+                                                                                <!-- <small>Size: 42KB <span class="date text-muted">Nov 02, 2017</span></small> -->
+                                                                            </div>
+                                                                        </a>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @endforeach
 
 
                                                     </div>
@@ -387,6 +415,8 @@
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 600px;">
+                <form action="{{route('upload-citizen-attachment',$citizen->id)}}" method="post" enctype="multipart/form-data">
+                    @csrf
                 <div class="modal-content" style="margin-top: -200px">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
@@ -398,12 +428,15 @@
                         <!-- File Uploader -->
 
                         <div class="col-md-12 col-sm-12 form-group has-feedback">
-                            <select class="form-control has-feedback-left" id="inputSuccess4" placeholder="">
+                            <select class="form-control has-feedback-left" id="inputSuccess4" required placeholder="" name="type">
                                 <option value="">Select category</option>
-                                <option>NIC</option>
-                                <option>Grama Niladari Certificate</option>
-                                <option>Birth Certificate</option>
-
+                                <option value="grama_niladari_certificate">Grama Niladari Certificate</option>
+                                <option value="nic">NIC</option>
+                                <option value="birth_certificate">Birth Certificate</option>
+                                <option value="appointment_attachment">Appointment Attachment</option>
+                                <option value="vehicle_license">Vehicle License</option>
+                                <option value="v_emission_certificate">Vehicle Emmission Certificate</option>
+                                <option value="attachments">Other Attachment</option>
                             </select>
                             <span class="fa fa-child form-control-feedback left" aria-hidden="true"></span>
                         </div>
@@ -411,18 +444,12 @@
 
                         <div class="col-md-12 col-sm-12 form-group has-feedback">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input form-control has-feedback-left" id="inputSuccess4" placeholder="Date of Birth" accept=".pdf, .doc, .docx">
+                                <input type="file" required class="custom-file-input form-control has-feedback-left" id="fileinput" placeholder="" name="file">
                                 <label class="custom-file-label" for="grama-niladari-certificate">Choose file</label>
                             </div>
+                            <span class="filename"></span>
                             <span class="fa fa-child form-control-feedback left" aria-hidden="true"></span>
                         </div>
-
-
-
-
-
-
-
 
                         <!-- File Uploader -->
 
@@ -430,9 +457,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
 
@@ -461,7 +489,11 @@
           
         });
            
-
+        $('#fileinput').change(function() {
+  
+            var file = $('#fileinput')[0].files[0].name;
+            $('.filename').text(file);
+        });
 
         });
     </script>

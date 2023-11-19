@@ -8,6 +8,8 @@ use App\Models\Service;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 
 class AdminCitizenController extends Controller
 {
@@ -62,8 +64,75 @@ class AdminCitizenController extends Controller
     public function deleteMedia($loc,$filename,Citizen $citizen){
        
         unlink(storage_path('app/public/' . $citizen->nic.'/'.$filename));
-        $citizen->documents()->update([$loc=>null]);
+        if($loc=="attachments"){
+            $attchments =Document::where('citizen_id', $citizen->id)->value('attachments');
+            $data = explode(',', $attchments);
+            foreach ($data as $key => $d) {
+                if($filename==$d){
+                    unset($data[$key]);
+                }
+            }
+                
+                $citizen->documents()->update(['attachments' => implode(",",$data)]);
+
+        }else{
+            $citizen->documents()->update([$loc=>null]);
+        }
+        
         return redirect()->back()->with('success', 'File removed successfully');
+    }
+
+    public function uploadMedia(Citizen $citizen, Request $req){
+        try {
+
+           
+            DB::beginTransaction(); // Start a database transaction
+            $cnicDirectory = storage_path('app/public/' . $citizen->nic);
+
+            if (!file_exists($cnicDirectory)) {
+                // Create a directory for the user if it doesn't exist
+                mkdir($cnicDirectory, 0755, true);
+            }
+        
+            $filename = $citizen->nic . '_'.$req->type.'_'.rand().'.' .$req->file->getClientOriginalExtension();
+            
+            $document =Document::where('citizen_id', $citizen->id)->first();
+
+            if($req->type=="attachments"){
+                $attchments =Document::where('citizen_id', $citizen->id)->value('attachments');
+                
+                if($attchments==null){
+                    $document->update(['attachments' => $filename]);
+                }else{
+                    $data = explode(',', $attchments);
+                    array_push($data,$filename);
+                    $document->update(['attachments' => implode(",",$data)]);
+                }
+
+            }else{
+                if ($document) {
+                    $document->update([$req->type => $filename]);
+                } else {
+                    Document::create([
+                        'citizen_id' => $citizen->id,
+                        $req->type => $filename,
+                    ]);
+                }
+            }
+            
+
+
+           
+
+                // Resize the image before saving
+                $image = Image::make($req->file);
+                $image->save($cnicDirectory . '/' . $filename);
+                DB::commit(); // Commit the transaction
+                return redirect()->back()->with('success', 'File uploaded successfully');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('fail', 'Something went wrong');
+        }
     }
 
     public function addCitizenId(){

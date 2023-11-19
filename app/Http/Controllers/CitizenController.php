@@ -27,7 +27,11 @@ class CitizenController extends Controller
 {
 
 
-
+    function viewAppoinment(){
+        $availabilities = User::select('fname','job_roll','unavailable_dates')->where('district',session('cdistrict'))->where('division',session('cdivision'))->get();
+        
+        return view('Forms/appointment')->with(['data'=>$availabilities]);
+    }
     function intProfile()
     {
         // Retrieve the citizen with their associated services and payments

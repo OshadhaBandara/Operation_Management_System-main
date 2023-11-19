@@ -119,7 +119,7 @@
 
 
         <!-- Custom Theme Scripts -->
-        <script src="{{asset('assets/js/gen-master/custom.min.js')}}"></script>
+        <script src="{{asset('assets/js/gen-master/custom.js')}}"></script>
 
     </body>
 </html>

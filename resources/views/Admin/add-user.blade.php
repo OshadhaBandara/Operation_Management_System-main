@@ -205,9 +205,9 @@
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
                                             <select class="form-control has-feedback-left" name="district"  >
                                               <option disabled selected>Choose Duty District</option>
-                                              <option>D1</option>
-                                              <option>D2</option>
-                                              <option>D3</option>
+                                              @foreach(config('districts') as $ds)
+                                                  <option value="{{$ds}}" >{{$ds}}</option>
+                                                  @endforeach
                                           </select>
                                             <span class="fa fa-university form-control-feedback left" aria-hidden="true"></span>
                                             <div class="text-danger" style="text-align: left">
@@ -218,9 +218,9 @@
                                           <div class="col-md-6 col-sm-6  form-group has-feedback">
                                             <select class="form-control has-feedback-left" name="division"  >
                                               <option disabled selected>Choose Duty Divition</option>
-                                              <option>D1</option>
-                                              <option>D2</option>
-                                              <option>D3</option>
+                                              @foreach(config('gn_divisions') as $gn)
+                                                  <option value="{{$gn['name']}}" >{{$gn['name']}}</option>
+                                                  @endforeach
                                           </select>
                                             <span class="fa fa-sort form-control-feedback left" aria-hidden="true"></span>
                                             <div class="text-danger" style="text-align: left">

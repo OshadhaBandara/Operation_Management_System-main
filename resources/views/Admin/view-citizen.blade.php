@@ -118,6 +118,16 @@
                                                             View</a>
                                                         </h6>
                                                 @endif
+
+                                                <?php 
+                                                             $attachments = $citizen->documents->attachments==null?[]:explode(',', $citizen->documents->attachments);
+                                                ?>
+                                                @foreach($attachments as $at)
+                                                <h6>{{$at}}
+                                                    <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$at)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
+                                                            View</a>
+                                                        </h6>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>

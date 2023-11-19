@@ -54,8 +54,8 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
 
-                @include('component/admin-sidebar')
-                @include('component/admin-topbar')
+                @include('Admin.Components.admin-sidebar')
+                @include('Admin.Components.admin-topbar')
 
 
               <div class="right_col" role="main">
@@ -89,44 +89,70 @@
                                   <div class="col-md-12 col-sm-12" style="padding-top: 30px">
                                     <div class="x_panel">
 
-
+                                          
                                               
+                                        <form action="{{route('generate-appointments-report')}}" method="post" >
+                                        @csrf
                                         <div class="well x_content">
                                               
                                           <div class="input-group col-md-4 col-sm-4">
-                                            <input type="text" class="form-control" placeholder="Citizen NIC">
-                                            <span class="input-group-btn">
+                                            <input type="text" class="form-control" name="nic"  placeholder="Citizen NIC">
+                                            <!-- <span class="input-group-btn">
                                               <button type="button" class="btn btn-primary">Go!</button>
-                                            </span>
+                                            </span> -->
                                           </div>
 
                                           <div class="input-group col-md-4 col-sm-4">
-                                            <select class="form-control">
-                                                <option value="" selected>Category</option>
-                                                <option value="option1">Option 1</option>
-                                                <option value="option2">Option 2</option>
-                                                <option value="option3">Option 3</option>
+                                            <select class="form-control" name="district">
+                                                <option value="0" selected>- All Districts -</option>
+                                                  @foreach(config('districts') as $ds)
+                                                  <option value="{{$ds}}">{{$ds}}</option>
+                                                  @endforeach
                                             </select>
-                                            <span class="input-group-btn">
-                                                <button type="button" class="btn btn-primary">Go!</button>
-                                            </span>
+                                          </div>
+
+                                          <div class="input-group col-md-4 col-sm-4">
+                                            <select class="form-control" name="division">
+                                                <option value="0" selected>- All Divisions -</option>
+                                                @foreach(config('gn_divisions') as $gn)
+                                                  <option value="{{$gn['name']}}">{{$gn['name']}}</option>
+                                                  @endforeach
+                                            </select>
+                                          </div>
+
+                                          <div class="input-group col-md-4 col-sm-4">
+                                            <select class="form-control" name="service">
+                                                <option value="0" selected>- All Services -</option>
+                                               <option value="Certificate Services">Certificate Services</option>
+                                               <option value="Passports Service">Passports Service</option>
+                                               <option value="Appointment">Appointment</option>
+                                               <option value="NIC Services">NIC Services</option>
+                                               <option value="Vehicle Revenue Service">Vehicle Revenue Service</option>
+                                            </select>
                                           </div>
                                         
 
-                                          <div class="input-group col-md-4 col-sm-4">
-                                            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%;">
-                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                                <span>December 30, 2014 - January 28, 2015</span>
+                                          <div class="input-group col-md-5 col-sm-5">
+                                            <div id="reportrange" name="date" class="pull-right" style="background: #fff; cursor: pointer; padding: 8px 10px; border: 1px solid #ccc; width: 100%;">
+                                                <i class="fa fa-calendar"></i>
+                                                <span></span>
+                                                <input name="dates" type="hidden">
                                                 <b class="caret"></b>
                                             </div>
                                           </div>
 
+                                          <div class="input-group col-md-3 col-sm-4">
+                                            <button class="btn btn-primary" type="submit">Search</button>
+                                            <a class="btn btn-outline-primary" href="{{url('/reports/appointment-reports')}}" >Reset</a>
+                                          </div>
+
                                         </div>
+                                        </form>
 
 
                                           <!-- Data Table-->
                             
-                                          <div class="col-md-12 col-sm-12 ">
+                                          <div class="col-md-12 col-sm-12 {{count($data)==0?'d-none':''}}">
                                             <div class="x_panel">
 
                                               <div class="x_content">
@@ -137,30 +163,33 @@
                                                       <table id="datatable-keytable" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                           <tr>
-                                                            <th>Name</th>
-                                                            <th>Position</th>
-                                                            <th>Office</th>
-                                                            <th>Age</th>
-                                                            <th>Start date</th>
-                                                            <th>Salary</th>
+                                                            <th>#</th>
+                                                            <th>Citizen Name</th>
+                                                            <th>Citizen NIC</th>
+                                                            <th>Service</th>
+                                                            <th>Submitted Date</th>
+                                                            <th>Status</th>
+                                                            <th>Total</th>
+                                                            <th>Payments</th>
                                                           </tr>
                                                         </thead>
 
 
                                                         <tbody>
 
-                                                          @for ($i=0; $i<100; $i++)
-
+                                                          @foreach($data as $d)
                                                           <tr>
-                                                            <td>Tiger Nixon</td>
-                                                            <td>System Architect</td>
-                                                            <td>Edinburgh</td>
-                                                            <td>61</td>
-                                                            <td>2011/04/25</td>
-                                                            <td>$320,800</td>
+                                                            <td>{{$d->id}}</td>
+                                                            <td>{{$d->fname}} {{$d->lname}}</td>
+                                                            <td>{{$d->nic}}</td>
+                                                            <td>{{$d->service_type}}</td>
+                                                            <td>{{date('Y-m-d', strtotime($d->created_at))}}</td>
+                                                            <td>{{$d->service_status==0?'Pending':($d->service_status==1?'Cancelled':($d->service_status==2?($d->service_type=='Appointment'?'Rescheduled':'Rejected'):'Completed'))}}</td>
+                                                            <td>Rs {{number_format($d->total,2)}}</td>
+                                                            <td>{{$d->service_payment==1?'Paid':'Unpaid'}}</td>
+                                          
                                                           </tr>
-
-                                                          @endfor
+                                                          @endforeach
 
                                                          
                                                         </tbody>
@@ -198,7 +227,7 @@
 
             </div>
 
-                @include('component/admin-footer')
+                @include('Admin.Components.admin-footer')
 
 
           </div>
@@ -255,9 +284,9 @@
 
 
                     <!-- Custom Theme Scripts -->
-                    <script src="{{asset('assets/js/gen-master/custom.min.js')}}"></script>
+                    <script src="{{asset('assets/js/gen-master/custom.js')}}"></script>
 
-
+              
                 
 
     </body>

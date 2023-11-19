@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Citizen;
 use App\Models\User;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -44,6 +46,7 @@ class Controller extends BaseController
                 
                 session()->put('is_admin_login',true);
                 session()->put('uid',$user->id );
+                session()->put('nic',$user->nic );
                 session()->put('afname',$user->fname );
                 session()->put('alname',$user->lname );
                 session()->put('is_view_user',$user->is_view_user );
@@ -184,7 +187,7 @@ class Controller extends BaseController
     function updateUser()
     {
 
-
+       
         request()->validate([
             "first_name" => 'required|string|max:255',
             "last_name" => 'required|string|max:255',
@@ -212,7 +215,7 @@ class Controller extends BaseController
 
                             
             $cnic = request()->nic;
-            $cnicDirectory = storage_path('app/public/' . $cnic);
+            $cnicDirectory = storage_path('app/public/Admin-profiles/' . $cnic);
 
             if (!file_exists($cnicDirectory)) {
                 mkdir($cnicDirectory, 0755, true);
@@ -246,16 +249,23 @@ class Controller extends BaseController
             $user->is_edit_citizen = request('is_edit_citizen',false);
             $user->is_manage_appointment = request('is_manage_appointment',false);
             $user->is_view_reports = request('is_view_reports',false);
+            $user->unavailable_dates = request('dates')?request('dates'):null;
+
 
             $user->update();
 
 
-            return redirect('user-manager')->with('success', 'User added successfully.');
+            return redirect('user-manager')->with('success', 'User updated successfully.');
 
         } catch (\Throwable $th) {
             //throw $th;
             return back()->with('fail', 'An error occurred while saving data : ' . $th->getMessage());
         }
+    }
+
+    public function viewProfile(){
+        $user = User::where('id',session('uid'))->first();
+        return view('Admin/user-profile')->with(['user'=>$user]);
     }
 
     function deleteUser()

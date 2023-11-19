@@ -110,8 +110,8 @@
                                             
                                             <!-- Split button -->
                                             <div class="btn-group">
-                                              <button type="button" class="btn btn-danger">Actions</button>
-                                              <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                              <button type="button" class="btn btn-outline-info btn-sm">Actions</button>
+                                              <button type="button" class="btn btn-outline-info btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="sr-only">Toggle Dropdown</span>
                                               </button>
                                               <div class="dropdown-menu">
@@ -129,7 +129,7 @@
                                         </tr>
                                       
                                       @endforeach
-                                      <a  class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter">Availability for Service</a>       <!-- link trigger modal -->                           
+                                      
 
                                     </tbody>
                                   </table>

@@ -15,6 +15,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link
       href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
@@ -54,6 +55,7 @@
     <title>
       Property &mdash; Free Bootstrap 5 Website Template by Untree.co
     </title>
+    @yield('page-style')
   </head>
   <body>
     
@@ -120,10 +122,10 @@
 
 
             <!-- Custom Theme Scripts -->
-            <script src="{{asset('assets/js/gen-master/custom.min.js')}}"></script>
+            <script src="{{asset('assets/js/gen-master/custom.js')}}"></script>
 
-          
-
+                @yield('page-script')
+           
   </body>
 </html>
 

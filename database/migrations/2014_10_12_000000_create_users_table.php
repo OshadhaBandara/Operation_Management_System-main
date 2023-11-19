@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_manage_appointment')->default(false)->nullable(false);
             $table->boolean('is_view_reports')->default(false)->nullable(false);
             $table->string('profile_file_name')->default('img.jpg');
+            $table->text('unavailable_dates')->nullable(false);
             $table->timestamps();
         });
     }
