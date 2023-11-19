@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Gentelella Alela! | </title>
+  <title>DiviBridge </title>
 
 
 
@@ -130,12 +130,15 @@
                                     <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       <span class="sr-only">Toggle Dropdown</span>
                                     </button>
+
+                                    @if(session('is_edit_user')==1)
                                     <div class="dropdown-menu">
                                       <a class="dropdown-item" href="view_edit_user/{{$data->id}}">View / Edit</a>
-                                      <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter">Availability for Service</a> <!-- link trigger modal -->
+                                      <!-- <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter">Availability for Service</a> link trigger modal -->
                                       <div class="dropdown-divider"></div>
                                       <a class="dropdown-item" href="delete_admin/{{$data->id}}" style="background-color:#2a3f54; color: rgb(255, 0, 0) ">Delete</a>
                                     </div>
+                                    @endif
                                   </div>
 
                                   <!-- Split button -->

@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Gentelella Alela! | </title>
+        <title>DiviBridge </title>
 
 
 
@@ -116,11 +116,15 @@
                                               </button>
                                               <div class="dropdown-menu">
                                               <a class="dropdown-item" href="{{route('view-citizen',$c->id)}}">View</a>
+                                                @if(session('is_edit_citizen')==1)
                                                 <a class="dropdown-item" href="{{route('edit-citizen',$c->id)}}">Edit</a>
+                                                @endif
                                                 <a class="dropdown-item" href="{{route('view-citizen-appoinments',$c->id)}}">View Appointments</a>
+                                                @if(session('is_edit_citizen')==1)
                                                 <a class="dropdown-item" href="{{route('citizen-file-manage',$c->id)}}">Documents</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item delete-modal"  attr-id="{{$c->id}}" attr-url="{{route('delete-citizen',$c->id)}}" data-toggle="modal" data-target="#deleteModal">Delete</a>
+                                                @endif
                                               </div>
                                             </div>
                           

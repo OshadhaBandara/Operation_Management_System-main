@@ -134,6 +134,8 @@ Route::get('reports/citizen-reports',[ReportsController::class,'citizenReport'])
 Route::get('reports/payment-reports',[ReportsController::class,'paymentsReport'])->middleware('AdminAuth');
 
 Route::post('generate-appointments-report',[ReportsController::class,'generateAppointmentReport'])->name('generate-appointments-report')->middleware('AdminAuth');
+Route::post('generate-citizen-report',[ReportsController::class,'generateCitizenReport'])->name('generate-citizen-report')->middleware('AdminAuth');
+Route::post('generate-payments-report',[ReportsController::class,'generatePaymentsReport'])->name('generate-payments-report')->middleware('AdminAuth');
 
 
 
@@ -188,15 +190,7 @@ Route::post('profile-image-store', [CitizenController::class,'imageStore'])->mid
 
 
 
-Route::get('admin-login', function(){
-    
-    if(session('is_admin_login') == true){
-
-        return redirect('admin-dashboard');
-    }
-
-    return view('Auth/admin-login');
-});
+Route::get('admin-login', [Controller::class,'dashboard']);
 
 Route::view('admin-dashboard','Admin/dashboard')->middleware('AdminAuth');
 Route::post('admin-auth',[Controller::class,'login']);

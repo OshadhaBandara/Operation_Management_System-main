@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Gentelella Alela! | </title>
+        <title>DiviBridge </title>
 
 
 
@@ -249,7 +249,7 @@
                           </div>
 
 
-
+                          @if(session('is_edit_user_access')==1)
                           <div class="col-md-12 col-sm-12" style="padding-top: 30px">
                             <div class="x_panel">
 
@@ -349,7 +349,7 @@
 
                             </div>
                           </div>
-
+                          @endif
 
 
 

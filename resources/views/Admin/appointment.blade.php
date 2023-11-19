@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Gentelella Alela! | </title>
+        <title>DiviBridge </title>
 
 
 
@@ -138,6 +138,7 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                   <a class="dropdown-item" href="{{route('appoinments.view',$ap->id)}}">View</a>
+                                                  @if(session('is_manage_appointment')==1)
                                                   <a class="dropdown-item complete-modal {{$ap->service_status>1?'disabled':''}}"  attr-id="{{$ap->id}}" attr-url="{{route('appoinments.complete',$ap->id)}}" data-toggle="modal" data-target="#completeModal">Complete</a>
                                                   
                                                   @if($ap->service_type=='Appointment')
@@ -147,6 +148,7 @@
                                                   @endif
                                                   <div class="dropdown-divider"></div>
                                                   <a class="dropdown-item cancel-modal"  attr-id="{{$ap->id}}" attr-url="{{route('appoinments.cancelation',$ap->id)}}" data-toggle="modal" data-target="#cancelModal">Cancelation</a>
+                                                  @endif
                                                 </div>
                                               </div>
 

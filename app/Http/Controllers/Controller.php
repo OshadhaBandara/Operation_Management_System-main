@@ -18,7 +18,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    function dashboard(){
 
+    }
+    
     function login()
     {
        // dd(request()->all());
@@ -55,6 +58,7 @@ class Controller extends BaseController
                 session()->put('is_view_citizen',$user->is_view_citizen );
                 session()->put('is_edit_citizen',$user->is_edit_citizen );
                 session()->put('is_manage_appointment',$user->is_manage_appointment );
+                session()->put('is_view_reports',$user->is_view_reports );
                 session()->put('profile_file_name',$user->profile_file_name );
 
         

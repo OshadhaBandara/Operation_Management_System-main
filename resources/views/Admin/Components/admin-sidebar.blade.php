@@ -40,15 +40,22 @@
       <li>
         <a href="{{url('admin-dashboard')}}"><i class="fa fa-home"></i> Dashboard </a>
       </li>
+      @if(session('is_view_user')==1)
       <li>
         <a href="{{url('user-manager')}}"><i class="fa fa-home"></i> User Manager </a>
       </li>
+      @endif
+      @if(session('is_view_citizen')==1)
       <li>
         <a href="{{url('citizen-manager')}}"><i class="fa fa-home"></i> Citizen Manager </a>
       </li>
+      @endif
+      @if(session('is_manage_appointment')==1)
       <li>
         <a href="{{url('citizen-appointment')}}"><i class="fa fa-home"></i> Appointmet Manager </a>
       </li>
+      @endif
+      @if(session('is_view_reports')==1)
       <li>
         <a><i class="fa fa-home"></i> Reports </a>
         <ul class="nav child_menu">
@@ -57,6 +64,7 @@
           <li><a href="{{url('reports/payment-reports')}}">Payment Report</a></li>
         </ul>
       </li>
+      @endif
     </ul>
   </div>
 

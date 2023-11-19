@@ -91,34 +91,10 @@
 
                                           
                                               
-                                        <form action="{{route('generate-appointments-report')}}" method="post" >
+                                        <form action="{{route('generate-payments-report')}}" method="post" >
                                         @csrf
                                         <div class="well x_content">
                                               
-                                          <div class="input-group col-md-4 col-sm-4">
-                                            <input type="text" class="form-control" name="nic"  placeholder="Citizen NIC" value="{{old('nic')}}">
-                                            <!-- <span class="input-group-btn">
-                                              <button type="button" class="btn btn-primary">Go!</button>
-                                            </span> -->
-                                          </div>
-
-                                          <div class="input-group col-md-4 col-sm-4">
-                                            <select class="form-control" name="district">
-                                                <option value="0" selected>- All Districts -</option>
-                                                  @foreach(config('districts') as $ds)
-                                                  <option value="{{$ds}}" {{$ds==old('district')?'selected':''}}>{{$ds}}</option>
-                                                  @endforeach
-                                            </select>
-                                          </div>
-
-                                          <div class="input-group col-md-4 col-sm-4">
-                                            <select class="form-control" name="division">
-                                                <option value="0" selected>- All Divisions -</option>
-                                                @foreach(config('gn_divisions') as $gn)
-                                                  <option value="{{$gn['name']}}" {{$gn['name']==old('gn_divisions')?'selected':''}}>{{$gn['name']}}</option>
-                                                  @endforeach
-                                            </select>
-                                          </div>
 
                                           <div class="input-group col-md-4 col-sm-4">
                                             <select class="form-control" name="service">
@@ -128,24 +104,6 @@
                                                <option value="Appointment" {{'Appointment'==old('service')?'selected':''}}>Appointment</option>
                                                <option value="NIC Services" {{'NIC Services'==old('service')?'selected':''}}>NIC Services</option>
                                                <option value="Vehicle Revenue Service" {{'Vehicle Revenue Service'==old('service')?'selected':''}}>Vehicle Revenue Service</option>
-                                            </select>
-                                          </div>
-
-                                          <div class="input-group col-md-4 col-sm-4">
-                                            <select class="form-control" name="status">
-                                                <option value="0" selected>- All Status -</option>
-                                                <option value="0.1" {{'0.1'==old('status')?'selected':''}}>Pending</option>
-                                                <option value="1" {{'1'==old('status')?'selected':''}}>Cancelled</option>
-                                                <option value="2" {{'2'==old('status')?'selected':''}}>Reschedule/ Rejected</option>
-                                                <option value="3" {{'3'==old('status')?'selected':''}}>Completed</option>
-                                            </select>
-                                          </div>
-
-                                          <div class="input-group col-md-4 col-sm-4">
-                                            <select class="form-control" name="payment">
-                                                <option value="0" selected>- Payment Status -</option>
-                                                <option value="0.1" {{0.1==old('payment')?'selected':''}}>Unpaid</option>
-                                                <option value="1" {{1==old('payment')?'selected':''}}>Paid</option>
                                             </select>
                                           </div>
 
@@ -160,7 +118,7 @@
 
                                           <div class="input-group col-md-3 col-sm-4">
                                             <button class="btn btn-primary" type="submit">Generate</button>
-                                            <a class="btn btn-outline-primary" href="{{url('/reports/appointment-reports')}}" >Reset</a>
+                                            <a class="btn btn-outline-primary" href="{{url('/reports/payment-reports')}}" >Reset</a>
                                           </div>
 
                                         </div>
@@ -181,13 +139,10 @@
                                                         <thead>
                                                           <tr>
                                                             <th>#</th>
-                                                            <th>Citizen Name</th>
-                                                            <th>Citizen NIC</th>
-                                                            <th>Service</th>
-                                                            <th>Submitted Date</th>
-                                                            <th>Status</th>
+                                                            <th>Paid Date</th>
+                                                            <th>Service Type</th>
+                                                            <th>Service Reff.</th>
                                                             <th>Total</th>
-                                                            <th>Payments</th>
                                                           </tr>
                                                         </thead>
 
@@ -197,13 +152,10 @@
                                                           @foreach($data as $d)
                                                           <tr>
                                                             <td>{{$d->id}}</td>
-                                                            <td>{{$d->fname}} {{$d->lname}}</td>
-                                                            <td>{{$d->nic}}</td>
-                                                            <td>{{$d->service_type}}</td>
                                                             <td>{{date('Y-m-d', strtotime($d->created_at))}}</td>
-                                                            <td>{{$d->service_status==0?'Pending':($d->service_status==1?'Cancelled':($d->service_status==2?($d->service_type=='Appointment'?'Rescheduled':'Rejected'):'Completed'))}}</td>
+                                                            <td>{{$d->service_type}}</td>
+                                                            <td>{{$d->sid}}</td>
                                                             <td>Rs {{number_format($d->total,2)}}</td>
-                                                            <td>{{$d->service_payment==1?'Paid':'Unpaid'}}</td>
                                           
                                                           </tr>
                                                           @endforeach
