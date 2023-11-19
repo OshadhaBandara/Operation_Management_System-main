@@ -690,14 +690,14 @@ function init_chart_doughnut() {
             tooltipFillColor: "rgba(51, 51, 51, 0.55)",
             data: {
                 labels: [
-                    "Symbian",
-                    "Blackberry",
-                    "Other",
-                    "Android",
-                    "IOS"
+                    "Certificate Services",
+                    "Passports Service",
+                    "Appointments",
+                    "NIC Services",
+                    "Vehicle Revenue Service"
                 ],
                 datasets: [{
-                    data: [15, 20, 30, 10, 30],
+                    data: percentages,
                     backgroundColor: [
                         "#BDC3C7",
                         "#9B59B6",

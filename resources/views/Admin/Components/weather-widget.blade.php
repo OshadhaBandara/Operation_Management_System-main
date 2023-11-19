@@ -1,4 +1,4 @@
-<div class="x_panel">
+<div class="x_panel d-none">
     <div class="x_title">
       <h2>Daily active users <small>Sessions</small></h2>
       <ul class="nav navbar-right panel_toolbox">

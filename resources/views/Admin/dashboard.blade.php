@@ -65,13 +65,13 @@
 
                   <div class="row" style="display: contents ; ">
 
-                    <div class="col-md-6 col-sm-6 ">
+                    <div class="col-md-12 col-sm-12 ">
                     
                       @include('Admin.Components.pychart-widget') 
                     
                     </div>
 
-                    <div class="col-md-6 col-sm-6 ">
+                    <div class="col-md-12 col-sm-12 ">
 
                       @include('Admin.Components.weather-widget') 
                       
@@ -92,7 +92,9 @@
 
 
 
-       
+    <script>
+      var percentages = <?php echo json_encode($data['percentages']); ?>
+    </script>
     <!-- jQuery -->
     <script src="{{asset('assets/vendors/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
@@ -133,7 +135,7 @@
     <script src="{{asset('assets/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
         <!-- Custom Theme Scripts -->
-        <script src="{{asset('assets/js/gen-master/custom.min.js')}}"></script>
+        <script src="{{asset('assets/js/gen-master/custom.js')}}"></script>
 
     </body>
 </html>

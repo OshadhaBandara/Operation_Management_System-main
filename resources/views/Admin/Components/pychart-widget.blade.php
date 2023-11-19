@@ -1,7 +1,7 @@
 
     <div class="x_panel tile fixed_height_320 overflow_hidden">
       <div class="x_title">
-        <h2>Service Request</h2>
+        <h2>Service Requests</h2>
         <ul class="nav navbar-right panel_toolbox">
           <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
           </li>
@@ -40,33 +40,48 @@
               <table class="tile_info">
                 <tr>
                   <td>
-                    <p><i class="fa fa-square blue"></i>Appointment</p>
+                    <p><i class="fa fa-square blue"></i>Certificate Services</p>
                   </td>
-                  <td>30%</td>
+                  <td>
+                    
+                    {{number_format($data['percentages'][0],2)}}%
+                  </td>
                 </tr>
                 <tr>
                   <td>
-                    <p><i class="fa fa-square green"></i>Certificate Services</p>
+                    <p><i class="fa fa-square green"></i>Passports Service</p>
                   </td>
-                  <td>10%</td>
+                  <td>
+                  
+                    {{number_format($data['percentages'][1],2)}}%
+                  </td>
                 </tr>
                 <tr>
                   <td>
-                    <p><i class="fa fa-square purple"></i>NIC Services</p>
+                    <p><i class="fa fa-square purple"></i>Appointments</p>
                   </td>
-                  <td>20%</td>
+                  <td>
+                   
+                    {{number_format($data['percentages'][2],2)}}%
+                  </td>
                 </tr>
                 <tr>
                   <td>
-                    <p><i class="fa fa-square aero"></i>Passports Service</p>
+                    <p><i class="fa fa-square aero"></i>NIC Services</p>
                   </td>
-                  <td>15%</td>
+                  <td>
+                    
+                    {{number_format($data['percentages'][3],2)}}%
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <p><i class="fa fa-square red"></i>Vehicle Revenue Service</p>
                   </td>
-                  <td>30%</td>
+                  <td>
+                   
+                    {{number_format($data['percentages'][4],2)}}%
+                  </td>
                 </tr>
               </table>
             </td>

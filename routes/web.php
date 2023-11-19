@@ -190,9 +190,9 @@ Route::post('profile-image-store', [CitizenController::class,'imageStore'])->mid
 
 
 
-Route::get('admin-login', [Controller::class,'dashboard']);
+Route::get('admin-login', [Controller::class,'adminLogin']);
 
-Route::view('admin-dashboard','Admin/dashboard')->middleware('AdminAuth');
+Route::get('admin-dashboard',[Controller::class,'dashboard'])->middleware('AdminAuth');
 Route::post('admin-auth',[Controller::class,'login']);
 Route::get('logout_admin',[Controller::class,'flush']);
 

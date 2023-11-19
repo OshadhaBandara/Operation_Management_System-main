@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Citizen;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,8 +19,41 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    function dashboard(){
+    function adminLogin(){
+        if(session('is_admin_login') == true){
+            return redirect('admin-dashboard');
+        }
+        return view('Auth/admin-login');
+    }
 
+    function dashboard(){
+        $s1_count = Service::where('service_type','Certificate Services')->count();
+        $s2_count = Service::where('service_type','Passports Service')->count();
+        $s3_count = Service::where('service_type','Appointment')->count();
+        $s4_count = Service::where('service_type','NIC Services')->count();
+        $s5_count = Service::where('service_type','Vehicle Revenue Service')->count();
+
+        $s1_p = number_format(($s1_count / ($s1_count+$s2_count+$s3_count+$s4_count+$s5_count))*100,2);
+        $s2_p = number_format(($s2_count / ($s1_count+$s2_count+$s3_count+$s4_count+$s5_count))*100,2);
+        $s3_p = number_format(($s3_count / ($s1_count+$s2_count+$s3_count+$s4_count+$s5_count))*100,2);
+        $s4_p = number_format(($s4_count / ($s1_count+$s2_count+$s3_count+$s4_count+$s5_count))*100,2);
+        $s5_p = number_format(($s5_count / ($s1_count+$s2_count+$s3_count+$s4_count+$s5_count))*100,2);
+
+        $percentages = [];
+        array_push($percentages,$s1_p,$s2_p,$s3_p,$s4_p,$s5_p);
+
+        $data = array(
+        'users_count' => User::count(),
+        'male_count' => Citizen::where('gender',"Male")->count(),
+        'female_count' => Citizen::where('gender',"Female")->count(),
+        'services_count'=>Service::count(),
+        'services_complete'=>Service::where('service_status',3)->count(),
+        'total_pays'=>Service::where('service_payment',1)->sum('total'),
+        'percentages'=> $percentages
+
+        );
+        
+            return view('Admin.dashboard')->with(['data'=>$data]);
     }
     
     function login()
