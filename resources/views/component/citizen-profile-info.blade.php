@@ -9,7 +9,7 @@
                             </div>
                             <div class="x_content">
                                 <br />
-                                <form id="demo-form2" action="profile-store" method="POST" class="form-horizontal form-label-left">
+                                <form id="demo-form2" action="profile" method="POST" class="form-horizontal form-label-left">
 
                                     @csrf
 

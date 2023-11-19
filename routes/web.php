@@ -185,7 +185,7 @@ Route::post('vh_revenue_store',[ServicesController::class,'revenueStore'])->midd
 
 
 Route::get('profile', [CitizenController::class,'intProfile'])->middleware('AuthCitizen');
-Route::post('profile-store', [CitizenController::class,'update'])->middleware('AuthCitizen');
+Route::post('profile', [CitizenController::class,'update'])->middleware('AuthCitizen');
 Route::post('profile-image-store', [CitizenController::class,'imageStore'])->middleware('AuthCitizen');
 
 

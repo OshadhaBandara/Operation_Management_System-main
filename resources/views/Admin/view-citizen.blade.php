@@ -82,38 +82,38 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 my-2">
                                                 
-                                                <h6>{{$citizen->documents->grama_niladari_certificate}} 
-                                                    @if($citizen->documents->grama_niladari_certificate!=null)
+                                                <h6>{{!empty($citizen->documents->grama_niladari_certificate)}} 
+                                                    @if(!empty($citizen->documents->grama_niladari_certificate))
                                                     <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->grama_niladari_certificate)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
                                                             View</a>
                                                     @endif
                                                 </h6>
                                                 
-                                                <h6>{{$citizen->documents->birth_certificate}}
-                                                    @if($citizen->documents->birth_certificate!=null) 
+                                                <h6>{{!empty($citizen->documents->birth_certificate)}}
+                                                    @if(!empty($citizen->documents->birth_certificate)) 
                                                     <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->birth_certificate)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
                                                             View</a>
                                                         </h6>
                                                 @endif
-                                                <h6>{{$citizen->documents->nic}} 
-                                                    @if($citizen->documents->nic!=null)
+                                                <h6>{{!empty($citizen->documents->nic)}} 
+                                                    @if(!empty($citizen->documents->nic))
                                                     <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->nic)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
                                                             View</a>
                                                         </h6>
                                                 @endif
-                                                <h6>{{$citizen->documents->vehicle_license}} 
-                                                    @if($citizen->documents->vehicle_license!=null)
+                                                <h6>{{!empty($citizen->documents->vehicle_license)}} 
+                                                    @if(!empty($citizen->documents->vehicle_license))
                                                     <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->vehicle_license)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
                                                             View</a>
-                                                        </h6>
-                                                <h6>{{$citizen->documents->v_emission_certificate}}@endif
-                                                    @if($citizen->documents->v_emission_certificate!=null) 
+                                                        </h6>@endif
+                                                <h6>{{!empty($citizen->documents->v_emission_certificate)}}
+                                                    @if(!empty($citizen->documents->v_emission_certificate)) 
                                                     <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->v_emission_certificate)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
                                                             View</a>
                                                         </h6>
                                                 @endif
-                                                <h6>{{$citizen->documents->appointment_attachment}}
-                                                    @if($citizen->documents->appointment_attachment!=null) 
+                                                <h6>{{!empty($citizen->documents->appointment_attachment)}}
+                                                    @if(!empty($citizen->documents->appointment_attachment)) 
                                                     <a class="text-primary" href="{{asset('storage/'.$citizen->nic.'/'.$citizen->documents->appointment_attachment)}}" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>
                                                             View</a>
                                                         </h6>
